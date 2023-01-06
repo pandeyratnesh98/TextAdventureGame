@@ -1,0 +1,8 @@
+|||SelfDestructionShuttle|
+||EmptySpaceShuttle|GarauMainVillainShuttle|
+||CyborgShuttle||
+||MedicalShuttle||
+||DemonShuttle||
+||EmptySpaceShuttle||
+WolfMonsterShuttle|MedicalShuttle|EmptySpaceShuttle|WolfMonsterShuttle|FindSwordRoom
+AlienRoom|AlienRoom|StartingShuttle|EmptySpaceShuttle|AlienRoom
