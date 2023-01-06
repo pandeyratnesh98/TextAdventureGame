@@ -14,7 +14,7 @@ def wolf_monster():
 
 
 def main_villain():
-    utils.play_sound('main-villain.wav')
+    utils.play_sound('main-villain.mp3')
 
 
 def demon():
@@ -79,3 +79,7 @@ def equip():
 
 def phone_ringing():
     utils.play_sound('phone-ringing.mp3')
+
+
+def game_over():
+    utils.play_sound('game-over.wav')

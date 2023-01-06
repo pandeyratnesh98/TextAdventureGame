@@ -43,6 +43,13 @@ def play():
                 if action_input == action.hotkey:
                     player.do_action(action, **action.kwargs)
                     break
+    if player.is_alive() and player.victory:
+        print("You won!")
+        sounds.win()
+
+    print("Game Over you Lost!")
+    sounds.game_over()
+    utils.text_to_speech("Game Over you Lost!")
 
 
 if __name__ == "__main__":

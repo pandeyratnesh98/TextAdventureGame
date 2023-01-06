@@ -9,11 +9,11 @@ import utils
 class Player:
 
     def __init__(self, name):
-        self.inventory = [items.Gold(15), items.Pistol(), items.SmallPotion(),
+        self.inventory = [items.Gold(15), items.Pistol(), items.Bazooka(), items.LaserBeam(), items.SmallPotion(),
                           items.SmallPotion(), ]  # Inventory on startup
         self.name = name
-        self.hp = 200  # Health Points
-        self.maxHp = 200
+        self.hp = 300  # Health Points
+        self.maxHp = 300
         self.location_x, self.location_y = world.starting_position  # (0, 0)
         self.currentWpn = self.inventory[1]
         self.experience = 0
@@ -41,7 +41,11 @@ class Player:
         sounds.walking()
         self.location_x += dx
         self.location_y += dy
-        print(world.tile_exists(self.location_x, self.location_y).intro_text())
+        text=world.tile_exists(self.location_x, self.location_y).intro_text()
+        print(text)
+        utils.text_to_speech(text)
+        world.tile_exists(self.location_x, self.location_y).ascii_art()
+        world.tile_exists(self.location_x, self.location_y).sound()
 
     def move_north(self):
         self.move(dx=0, dy=-1)
@@ -106,7 +110,7 @@ class Player:
             if len(potion_list) == 0:
                 print("you have no potions")
                 return None
-            item_choice = utils.get_int_input("\n Select a Potion.\n")
+            item_choice = utils.get_int_input("\n Select a Potion.\n") - 1
             if item_choice not in range(0, len(potion_list)):
                 print("\n Invalid Choice.")
                 continue

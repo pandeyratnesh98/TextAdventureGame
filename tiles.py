@@ -15,6 +15,12 @@ class MapTile:
     def intro_text(self):
         raise NotImplementedError()
 
+    def ascii_art(self):
+        raise NotImplementedError()
+
+    def sound(self):
+        raise NotImplementedError()
+
     def modify_player(self, player):
         raise NotImplementedError()
 
@@ -47,8 +53,9 @@ class StartingShuttle(MapTile):
     def intro_text(self):
         if self.beenThere:
             return "Oh no not again at the starting point"
+
         else:
-            self.beenThere=True
+            self.beenThere = True
             return """
                     You find yourself in a space shuttle with lots of monsters inside the spaceship.
                     you have to find self-destructing button and destroy the Spaceship to save the Kasol.
@@ -56,6 +63,12 @@ class StartingShuttle(MapTile):
 
     def modify_player(self, player):
         # Room has no action on player
+        pass
+
+    def ascii_art(self):
+        pass
+
+    def sound(self):
         pass
 
 
@@ -82,8 +95,10 @@ class EnemyRoom(MapTile):
             sounds.enemy_attack()
             the_player.hp = the_player.hp - self.enemy.damage
             utils.text_to_speech(f"Enemy does {self.enemy.damage} damage.")
-            utils.text_to_speech(f"You have {the_player.hp} HP remaining.")
-            print("Enemy does {} damage. You have {} HP remaining.".format(self.enemy.damage, the_player.hp))
+            print(f"Enemy does {self.enemy.damage} damage.")
+            if the_player.hp > 0:
+                print("You have {} HP remaining.".format(the_player.hp))
+                utils.text_to_speech(f"You have {the_player.hp} HP remaining.")
 
     def available_actions(self):
         if self.enemy.is_alive():
@@ -102,13 +117,20 @@ class EmptySpaceShuttle(MapTile):
     def intro_text(self):
         if self.beenThere:
             return """Oh again at the same empty shuttle! Have to concentrate this time"""
+
         else:
             self.beenThere = True
-            return """Ah! Empty shuttle ha, This time for sure I'll find a person who is responsible for this 
+            return """Ah! Empty shuttle, This time for sure I'll find a person who is responsible for this 
             destruction. """
 
     def modify_player(self, player):
         # Room has no action on player
+        pass
+
+    def ascii_art(self):
+        pass
+
+    def sound(self):
         pass
 
 
@@ -118,15 +140,22 @@ class AlienRoom(EnemyRoom):
 
     def intro_text(self):
         if self.enemy.is_alive():
-            utils.alien_ascii()
-            sounds.alien()
             return """
             Single alien is approaching you, don't let your guard down!
             """
+
         else:
             return """
             The corpse of a dead alien laying on the ground.
             """
+
+    def ascii_art(self):
+        if self.enemy.is_alive():
+            return utils.alien_ascii()
+
+    def sound(self):
+        if self.enemy.is_alive():
+            return sounds.alien()
 
 
 class WolfMonsterShuttle(EnemyRoom):
@@ -135,14 +164,21 @@ class WolfMonsterShuttle(EnemyRoom):
 
     def intro_text(self):
         if self.enemy.is_alive():
-            utils.wolf_monster_ascii()
-            sounds.wolf_monster()
             return """A wolf monster jumps down in front of you! I guess someone must turn a human into monster. Now 
             focus and you must win."""
+
         else:
             return """
              The corpse of a dead wolf monster is on the ground.
              """
+
+    def ascii_art(self):
+        if self.enemy.is_alive():
+            return utils.wolf_monster_ascii()
+
+    def sound(self):
+        if self.enemy.is_alive():
+            return sounds.wolf_monster()
 
 
 class CyborgShuttle(EnemyRoom):
@@ -151,12 +187,19 @@ class CyborgShuttle(EnemyRoom):
 
     def intro_text(self):
         if self.enemy.is_alive():
-            utils.cyborg_ascii()
-            sounds.cyborg()
             return """A vicious cyborg jumps down in front of you! One wrong move and you'll be dead."""
+
         else:
             return """The dead cyborg laying on the ground. Today must be my lucky day because even I am not 
             sure How I killed this son of a bitch! """
+
+    def ascii_art(self):
+        if self.enemy.is_alive():
+            return utils.cyborg_ascii()
+
+    def sound(self):
+        if self.enemy.is_alive():
+            return sounds.cyborg()
 
 
 class DemonShuttle(EnemyRoom):
@@ -165,13 +208,20 @@ class DemonShuttle(EnemyRoom):
 
     def intro_text(self):
         if self.enemy.is_alive():
-            utils.demon_ascii()
-            sounds.demon()
             return """Demon approaching you! He has insatiable hunger for blood so don't let your guard down even for a 
             moment. """
+
         else:
             return """The demons dead body is fading away slowly! I'm feeling good watching this badass getting 
             erased slowly. """
+
+    def ascii_art(self):
+        if self.enemy.is_alive():
+            return utils.demon_ascii()
+
+    def sound(self):
+        if self.enemy.is_alive():
+            return sounds.demon()
 
 
 class GarauMainVillainShuttle(EnemyRoom):
@@ -180,12 +230,19 @@ class GarauMainVillainShuttle(EnemyRoom):
 
     def intro_text(self):
         if self.enemy.is_alive():
-            utils.garau_ascii()
-            sounds.main_villain()
             return """Look carefully! Garau is coming! he is responsible for this havoc. Now it's time 
             give him punishment he deserves. """
+
         else:
             return """Garau is laying on the ground! this suits him the best!. """
+
+    def ascii_art(self):
+        if self.enemy.is_alive():
+            return utils.garau_ascii()
+
+    def sound(self):
+        if self.enemy.is_alive():
+            return sounds.main_villain()
 
 
 class FindSwordRoom(LootRoom):
@@ -198,13 +255,19 @@ class FindSwordRoom(LootRoom):
             You've been here before...
             This is where you found a sword"""
         else:
-            utils.sword_ascii()
             self.beenThere = True
-            sounds.pulling_out_sword()
             return """
                     Your notice something shiny in the corner.
                     It's a Sword! You pick it up.
                     """
+
+    def ascii_art(self):
+        if not self.beenThere:
+            return utils.sword_ascii()
+
+    def sound(self):
+        if not self.beenThere:
+            return sounds.pulling_out_sword()
 
 
 class MedicalShuttle(LootRoom):
@@ -222,14 +285,15 @@ class MedicalShuttle(LootRoom):
                     Today surely is my lucky day! I found magic potion here!
                     """
 
+    def ascii_art(self):
+        pass
+
+    def sound(self):
+        pass
+
 
 class SelfDestructionShuttle(MapTile):
     def intro_text(self):
-        utils.text_to_speech("""Great! See that red button on main machine that is self destruction button can 
-        destroy whole spaceship and monsters inside it with a single click... ... Now click it and get rid of these 
-        monsters. Victory is yours!""")
-        sounds.nuke()
-        sounds.win()
         return """Great! See that red button on main machine that is self destruction button can destroy whole 
         spaceship and monsters inside it with a single click... ... Now click it and get rid of these monsters. 
  
@@ -239,3 +303,9 @@ class SelfDestructionShuttle(MapTile):
 
     def modify_player(self, player):
         player.victory = True
+
+    def ascii_art(self):
+        pass
+
+    def sound(self):
+        return sounds.nuke()
