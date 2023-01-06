@@ -12,7 +12,7 @@ def play():
     room = world.tile_exists(player.location_x, player.location_y)
     sounds.phone_ringing()
     utils.text_to_speech(f"Hello {name}")
-    print("""As you remember,  in 2003, Rohit Mehra's son sent some signals to space and made aliens meet him 
+    print("""As you remember,  in 2003, Rohit Mehra sent some signals to space and made aliens meet him 
     personally, people don't believe it, but it's true. In this process, an alien just forgot to catch his spaceship 
     because the spaceship driver was very punctual, so he left him on earth to teach him the value of time. In the 
     meantime, Rohit and the alien became friends, and Rohit helped the alien catch his flight, and the alien 
